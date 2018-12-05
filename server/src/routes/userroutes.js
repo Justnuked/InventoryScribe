@@ -1,20 +1,24 @@
 const express = require('express');
 const routes = express.Router();
+const userController = require('../controllers/usercontroller');
 
-//get all users?
-routes.get('/', function(){
 
-})
+routes.post('/login', userController.login);
+
 
 //get user?
 routes.get('/:id', function(){
 
 })
 
-//post new user
-routes.post('/', function(){
+routes.get('/', function(req,res){
 
+    res.statusCode = 200;
+    return res.json({eyyy : 'eeyyy'});
 })
+
+//post new user
+routes.post('/', userController.createUser)
 
 //update user
 routes.put('/:id', function(){
@@ -22,8 +26,6 @@ routes.put('/:id', function(){
 })
 
 //delete user
-routes.delete('/:id', function(){
-
-})
+routes.delete('/:id', userController.deleteUser)
 
 module.exports = routes;
