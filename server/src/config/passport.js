@@ -6,7 +6,6 @@ const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const key = require('./jwt.js');
 
-console.log('called passport.js');
 passport.use(new LocalStrat({
     usernameField : 'username',
     passwordField: 'password'

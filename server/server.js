@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
+const authRoutes = require('./src/routes/authroutes');
 const userRoutes = require('./src/routes/userroutes');
+const characterRoutes = require('./src/routes/characterroutes');
+
 const passport = require('passport');
 
 const app = express();
@@ -25,8 +29,9 @@ mongoose.set('useCreateIndex', true);
 mongoose.connect('mongodb://localhost/inventoryscribe', {useNewUrlParser: true});
 
 //set api routes
-app.use('/api2', passport.authenticate('jwt', {session : false}), userRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', passport.authenticate('jwt', {session:false}), userRoutes);
+app.use('/api/character', passport.authenticate('jwt', {session:false}),characterRoutes);
 
 
 //Returns a 400 error for all non existing endpoints

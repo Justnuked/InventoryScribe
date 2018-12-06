@@ -2,23 +2,17 @@ const express = require('express');
 const routes = express.Router();
 const userController = require('../controllers/usercontroller');
 
-
-routes.post('/login', userController.login);
-
-
 //get user?
 routes.get('/:id', function(){
 
 })
 
+//get users?
 routes.get('/', function(req,res){
 
     res.statusCode = 200;
-    return res.json({eyyy : 'eeyyy'});
+    return res.json({eyyy : req.user.username});
 })
-
-//post new user
-routes.post('/', userController.createUser)
 
 //update user
 routes.put('/:id', function(){
@@ -26,6 +20,6 @@ routes.put('/:id', function(){
 })
 
 //delete user
-routes.delete('/:id', userController.deleteUser)
+routes.delete('/', userController.deleteUser)
 
 module.exports = routes;

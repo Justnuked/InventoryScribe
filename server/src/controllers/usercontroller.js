@@ -11,7 +11,6 @@ module.exports = {
                 return res.json(info.Message);
             }else{
                 req.login(user, {session:false}, (err) =>{
-                    console.log('trying to login. . .');
                     if(err){
                         res.status(400);
                         console.log(err);
@@ -24,6 +23,22 @@ module.exports = {
                 });
             }
         })(req,res)
+    },
+
+    getUser(req,res,next){
+        const username = req.user.username;
+
+        user.findOne({username: username})
+        .populate('characters')
+        .then((result) =>{
+            if(!result){
+                res.status(400);
+                res.send({Message: 'user not found'});
+            }else{
+                res.status(200);
+                res.send(result);
+            }
+        }).catch(next);
     },
 
     createUser(req,res,next){
@@ -48,13 +63,14 @@ module.exports = {
     },
 
     deleteUser(req,res,next){
-        const id = req.params.id;
+        const username = req.user.username;
         const password = req.body.password;
 
-        User.findById(id)
+        console.log(username + ' username from delete');
+        User.findOne({username: username})
         .then((result) =>{
             if(result !== null){
-                if(result.password === password){
+                if(result.comparePassword(password)){
                     result.remove();
                     res.status(200);
                     res.send({Message: 'user deleted'});

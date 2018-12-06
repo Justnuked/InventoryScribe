@@ -1,4 +1,5 @@
 const express = require('express');
+const characterController = require('../controllers/charactercontroller');
 const routes = express.Router();
 
 //get all characters
@@ -12,14 +13,10 @@ routes.get('/:id', function(){
 })
 
 //post new character
-routes.post('/', function(){
-
-})
+routes.post('/', characterController.createCharacter)
 
 //update character
-routes.put('/:id', function(){
-
-})
+routes.put('/:id', characterController.updateCharacter)
 
 //delete character
 routes.delete('/:id', function(){
