@@ -45,6 +45,8 @@ module.exports = {
         const username = req.body.username;
         const password = req.body.password;
 
+        console.log(req.body);
+
         User.findOne({username: username})
         .then((result) =>{
             if(result === null){

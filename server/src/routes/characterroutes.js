@@ -3,14 +3,10 @@ const characterController = require('../controllers/charactercontroller');
 const routes = express.Router();
 
 //get all characters
-routes.get('/', function(){
-
-})
+routes.get('/', characterController.getAllCharactersOfUSer)
 
 //get character
-routes.get('/:id', function(){
-
-})
+routes.get('/:id', characterController.getCharacter)
 
 //post new character
 routes.post('/', characterController.createCharacter)
@@ -19,8 +15,6 @@ routes.post('/', characterController.createCharacter)
 routes.put('/:id', characterController.updateCharacter)
 
 //delete character
-routes.delete('/:id', function(){
-
-})
+routes.delete('/:id', characterController.deleteCharacter)
 
 module.exports = routes;

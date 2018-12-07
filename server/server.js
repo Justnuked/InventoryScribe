@@ -5,19 +5,25 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./src/routes/authroutes');
 const userRoutes = require('./src/routes/userroutes');
 const characterRoutes = require('./src/routes/characterroutes');
+const cors = require('cors');
 
 const passport = require('passport');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+
 require('./src/config/passport.js');
+
 
 //set json as content type
 app.use('*', function(req, res, next){
+	console.log(req);
 	res.contentType('application/json');
 	next();
 });
+
+
 
 app.use(bodyParser.urlencoded({'extended': 'true'}));
 app.use(bodyParser.json({limit: '100mb'}));
@@ -27,6 +33,8 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 mongoose.connect('mongodb://localhost/inventoryscribe', {useNewUrlParser: true});
+
+app.use(cors());
 
 //set api routes
 app.use('/api/auth', authRoutes);
