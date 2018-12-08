@@ -12,14 +12,17 @@
     </div>
     <button class="btn" type="submit" [disabled]="!userForm.valid">Submit</button>
   </form>
-    <div *ngIf="username.invalid && (username.dirty || username.touched)"
+  
+  <label>{{resultRequest}}</label>
+
+    <div *ngIf="username.invalid && username.touched"
       class="alert alert-danger">
 
       <div *ngIf="username.errors.required">
         Username is required.
       </div>
     </div>
-    <div *ngIf="password.invalid && (password.dirty || password.touched)"
+    <div *ngIf="password.invalid && password.touched"
     class="alert alert-danger">
 
     <div *ngIf="password.errors.required">

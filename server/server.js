@@ -18,7 +18,6 @@ require('./src/config/passport.js');
 
 //set json as content type
 app.use('*', function(req, res, next){
-	console.log(req);
 	res.contentType('application/json');
 	next();
 });

@@ -5,16 +5,20 @@ const key = require('../config/jwt.js');
 
 module.exports = {
     login(req,res){
+        console.log('login called');
         passport.authenticate('local', {session: false}, (err, user, info) =>{
             if(err || !user){
                 res.status(400);
-                return res.json(info.Message);
+                console.log(err);
+                console.log(user);
+                return res.json({Message: info.Message});
             }else{
                 req.login(user, {session:false}, (err) =>{
                     if(err){
                         res.status(400);
                         console.log(err);
                     }else{
+                        console.log('singing');
                         jwt.sign({username: user}, key.getKey(), {expiresIn: "1d"} ,function(err,token){
                             res.status(200);
                             return res.json({token});
@@ -58,7 +62,7 @@ module.exports = {
                     res.send({Message: 'user created'});
                 })
             }else{
-                res.status(409);
+                res.status(422);
                 res.send({Message: 'username is taken'});
             }
         })

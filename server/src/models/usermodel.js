@@ -13,22 +13,26 @@ const UserSchema = new Schema ({
         type:String,
         required:true
     },
+    datecreated:{
+        type:Date
+    },
     characters:[{
         type:Schema.Types.ObjectId,
         ref:'character'
-    }]
+    }],
 });
 
 UserSchema.pre('save', function(next){
     const temp = this.password;
-
-    var hash = crypto.createHmac('sha256', 'secretsalt').update(temp).digest('hex');
-    this.password = hash;
+    if(!this.datecreated){
+        this.datecreated = Date.now();
+        var hash = crypto.createHmac('sha256', 'secretsalt').update(temp).digest('hex');
+        this.password = hash;
+    }
     next();
 });
 
 UserSchema.methods.comparePassword = function(password){
-    console.log('compare called called' + password);
     var hash = crypto.createHmac('sha256', 'secretsalt').update(password).digest('hex');
 
     if(this.password === hash){

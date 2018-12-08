@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {User} from '../classes/user';
 import {UserService} from '../services/user.service'
+import {JwtService} from '../services/jwt.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class RegisterComponent {
+export class LoginComponent implements OnInit {
+
+  ngOnInit() {
+  }
 
   userForm = new FormGroup({
     username: new FormControl('',
@@ -25,18 +29,23 @@ export class RegisterComponent {
     return this.userForm.get('password');
   }
 
-  resultRequest:String;
   user:User;
-  constructor(private userService: UserService){
+  resultRequest:String;
+  constructor(private userService: UserService, private jwtService:JwtService){
 
   }
 
   onSubmit() {
+
     this.user = this.userForm.value;
-    this.userService.register(this.user).subscribe(
+
+
+    this.userService.login(this.user).subscribe(
       (result) =>{
-        var temp = JSON.stringify(result.Message)
-        this.resultRequest = temp;
+        var temp = JSON.stringify(result.token);
+        this.jwtService.setJwtToken(temp);
+
+        this.resultRequest = "Succes";
       },err =>{
         var temp = JSON.stringify(err.error.Message);
         this.resultRequest = temp;

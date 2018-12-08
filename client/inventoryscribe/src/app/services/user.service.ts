@@ -3,15 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import {User} from '../classes/user';
 import { Observable, of } from 'rxjs';
+import { REGISTERURL, LOGINURL } from "../constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-
   constructor(private http: HttpClient) { 
-    
   }
 
   private httpOptions = {
@@ -20,22 +19,27 @@ export class UserService {
     })
   };
 
-  register(user: User): Observable<any>{
-    let url = "http://localhost:3000/api/auth/register";
-
-    return this.http.post<any>(url,user, this.httpOptions)
+  login(user:User): Observable<any>{
+    return this.http.post(LOGINURL, user, this.httpOptions)
     .pipe(
-      catchError(this.handleError<any>('register'))
+      tap(
+        error =>{
+          return new Observable(error.error);
+        }
+      )
     );
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); 
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  register(user: User): Observable<any>{
+    return this.http.post(REGISTERURL,user, this.httpOptions)
+    .pipe(
+       tap(
+           error => {
+             if(error.status == 422){
+               return new Observable(error.error);
+             }
+           }
+         )
+    );
   }
-
 }
