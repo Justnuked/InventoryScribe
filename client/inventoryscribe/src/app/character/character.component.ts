@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {CharacterService} from '../services/character.service';
 import {JwtService} from '../services/jwt.service';
 import {Character} from '../classes/character';
@@ -12,7 +12,7 @@ import {MatSnackBar} from '@angular/material';
 })
 export class CharacterComponent implements OnInit {
 
-  character:Character;
+  characters:Character[];
   constructor(public snackBar: MatSnackBar,private characterService:CharacterService, private jwtService: JwtService, private router:Router) { }
 
   ngOnInit() {
@@ -25,14 +25,15 @@ export class CharacterComponent implements OnInit {
         this.snackBar.open("Please login first", null, {duration: 2000});
         this.router.navigate(['login']);
       }else{
-        var temp = this.characterService.getCharacters().subscribe(result=>{
-          this.character = result;
-          console.log(this.character);
+
+        this.characterService.getCharacters().subscribe(result=>{
+          this.characters = result;
         })
       }
     });
-
-    
   }
 
+  onSelect(characterId: String): void {
+    this.router.navigate(['characters',characterId]);
+  }
 }

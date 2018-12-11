@@ -1,7 +1,7 @@
 import{Inventory} from './inventory';
 
 export class Character {
-    id: string;
+    _id: string;
     name: String;
     class: String;
     race: String;

@@ -11,9 +11,8 @@ const ItemSchema = new Schema ({
         type:String,
         required:true
     },
-    weight:{
-        type:number,
-        required:true
+    amount:{
+        type:Number
     }
 });
 

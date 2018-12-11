@@ -21,6 +21,15 @@ const CharacterSchema = new Schema ({
     }]
 });
 
+CharacterSchema.pre('remove', function(next){
+    const inventories = mongoose.model('inventory');
+
+    inventories.remove({_id: {$in: this.inventories}}).then
+    (() =>{
+        next();
+    });
+});
+
 
 const Character = mongoose.model('character', CharacterSchema);
 

@@ -1,56 +1,32 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import {Character} from '../classes/character';
+import {Item} from '../classes/item';
 import { Observable, of } from 'rxjs';
-import { GETCHARURL, POSTCHARURL} from "../constants";
+import { ITEMURL} from "../constants";
 import {JwtService} from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CharacterService {
+export class ItemService {
 
   constructor(private jwtService:JwtService, private http: HttpClient) {
-   }
-
-  postCharacter(character: Character): Observable<any>{
-    var httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.jwtService.getJwtToken()
-      })
-    };
-
-    return this.http.post(POSTCHARURL ,character, httpOptions)
-    .pipe(
-       tap(
-           error => {
-               return new Observable(error.error);
-             }
-         )
-    );
   }
 
-  putCharacter(character: Character): Observable<any>{
+  deleteItem(charId:String, inventoryId:String, itemId:String) :Observable<any>{
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.jwtService.getJwtToken()
-      })
+      }),
+      body: {charid: charId, inventoryid: inventoryId}
     };
 
-    return this.http.put(GETCHARURL + '/' + character._id ,character, httpOptions)
-    .pipe(
-       tap(
-           error => {
-               return new Observable(error.error);
-             }
-         )
-    );
+    return this.http.delete(ITEMURL + "/" + itemId, httpOptions);
   }
 
-  getCharacter(id:String): Observable<any>{
+  getItem(itemId:String) :Observable<any>{
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -58,10 +34,10 @@ export class CharacterService {
       })
     };
 
-    return this.http.get(GETCHARURL + '/' + id, httpOptions);
+    return this.http.get(ITEMURL + '/' + itemId, httpOptions);
   }
 
-  deleteCharacter(id:String):Observable<any>{
+  postItem(item:Item, charid:String, invId:String): Observable<any>{
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -69,17 +45,18 @@ export class CharacterService {
       })
     };
 
-    return this.http.delete(GETCHARURL + '/' + id, httpOptions)
+    return this.http.post(ITEMURL, {charid: charid,name: item.name, description: item.description, amount:item.amount
+      ,inventoryid:invId}, httpOptions)
     .pipe(
       tap(
-        error =>{
+        error => {
           return new Observable(error.error);
         }
       )
     )
   }
 
-  getCharacters(): Observable<any>{
+  putItem(item:Item, charid:String, invId:String): Observable<any>{
     var httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -87,7 +64,14 @@ export class CharacterService {
       })
     };
 
-    console.log(httpOptions);
-    return this.http.get(GETCHARURL, httpOptions);
+    return this.http.put(ITEMURL + '/' + item._id, {charid: charid,name: item.name, description: item.description, amount:item.amount
+      ,inventoryid:invId}, httpOptions)
+    .pipe(
+      tap(
+        error => {
+          return new Observable(error.error);
+        }
+      )
+    )
   }
 }

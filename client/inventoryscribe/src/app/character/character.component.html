@@ -1,3 +1,23 @@
-<p>
-  character works!
-</p>
+<div class="container">
+    <button class="btn" routerLink="newcharacter">New character</button>
+  <h2>My characters</h2>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+          <th>Name</th>
+          <th>Class</th>
+          <th>Race</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor=" let character of characters" (click)="onSelect(character._id)">
+                <td>{{ character.name }}</td>
+                <td>{{ character.class }}</td>
+                <td>{{ character.race}}</td>
+              </tr>
+        </tbody>
+      </table>
+</div>
+<div class="container">
+</div>

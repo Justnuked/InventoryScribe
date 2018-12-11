@@ -1,0 +1,51 @@
+<div class="container form-group">
+    <div *ngIf="character">
+        <div>
+            <button class="btn" (click)="deleteCharacter()">Delete</button>
+        </div>
+        <div>
+            <button class="btn" (click)="updateCharacter()">Update</button>
+        </div>
+        <div>
+            <button class="btn" (click)="addNewInventory(character._id)">Add new inventory</button>
+        </div>
+
+
+    <h2>{{character.name}} Details</h2>
+    <div>
+        <label>Name:
+            <input [(ngModel)]="character.name"/>
+          </label>
+    </div>
+
+    <div>
+        <label>Class:
+            <input [(ngModel)]="character.class"/>
+          </label>
+    </div>
+
+    <div>
+        <label>Race:
+            <input [(ngModel)]="character.race"/>
+          </label>
+    </div>
+  </div>
+  <div class="container">
+    <router-outlet></router-outlet>
+</div>
+</div>
+
+<div class="container" *ngIf="character.inventories">
+    <h2>Inventories:</h2>
+    <div class="container">
+
+    <mat-accordion>
+        <mat-expansion-panel *ngFor='let inventory of character.inventories'>
+            <mat-expansion-panel-header>
+                {{inventory.type}}
+            </mat-expansion-panel-header>
+             <app-inventory [inventory]="inventory" ></app-inventory>
+        </mat-expansion-panel>
+    </mat-accordion>
+    </div>
+</div>

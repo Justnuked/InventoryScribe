@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./src/routes/authroutes');
 const userRoutes = require('./src/routes/userroutes');
 const characterRoutes = require('./src/routes/characterroutes');
+const inventoryRoutes = require('./src/routes/inventoryroutes');
+const itemRoutes = require('./src/routes/itemroutes');
 const cors = require('cors');
 
 const passport = require('passport');
@@ -39,6 +41,8 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/user', passport.authenticate('jwt', {session:false}), userRoutes);
 app.use('/api/character', passport.authenticate('jwt', {session:false}),characterRoutes);
+app.use('/api/inventory', passport.authenticate('jwt', {session:false}),inventoryRoutes);
+app.use('/api/item', passport.authenticate('jwt', {session: false}), itemRoutes);
 
 
 //Returns a 400 error for all non existing endpoints

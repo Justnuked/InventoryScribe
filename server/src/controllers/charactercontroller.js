@@ -40,6 +40,8 @@ module.exports = {
 
     getCharacter(req,res,next){
         CharacterModel.findById({_id: req.params.id})
+        .populate('inventories')
+        .populate('items')
         .then((result) =>{
             if(result === null){
                 res.status(400);
@@ -54,6 +56,7 @@ module.exports = {
     updateCharacter(req,res,next){
         const username = req.user.username;
         const charId = req.params.id;
+        var exists = false;
 
         UserHelper.getUser(username)
         .then((userResult) =>{
@@ -65,7 +68,8 @@ module.exports = {
             userResult.characters.forEach(element => {
              if(element._id.toString() === charId.toString()){
                     //character belongs to current user
-                    CharacterModel.findByIdAndUpdate(charId, {name: req.body.newName, race: req.body.newRace, class:req.body.newClass})
+                    exists = true;
+                    CharacterModel.findByIdAndUpdate(charId, {name: req.body.name, race: req.body.race, class:req.body.class})
                     .then((result) =>{
                         if(result === null){
                             res.status(400);
@@ -75,18 +79,20 @@ module.exports = {
                             res.send({Message: 'Character updated'});
                         }
                     }).catch(next);
-                } else{
-                    //character doesnt belong to this user
-                    res.status(401);
-                    res.send({Message: 'This resource does not belong to user.'});
                 }
             });
+            if(!exists){
+                //character doesnt belong to this user
+                res.status(401);
+                res.send({Message: 'This resource does not belong to user.'});
+            }
         })
     },
 
     deleteCharacter(req,res,next){
         const username = req.user.username;
         const charId = req.params.id;
+        var exists = false;
 
         UserHelper.getUser(username)
         .then((userResult) =>{
@@ -96,21 +102,27 @@ module.exports = {
             }else{
                 userResult.characters.forEach(element =>{
                     if(element._id.toString() === charId.toString()){
+                        exists = true;
                         CharacterModel.findByIdAndRemove(charId)
                         .then((result) =>{
                             if(result === null){
                                 res.status(400);
                                 res.send({Message: 'Character not found'});
                             }else{
+                                userResult.characters.pull(charId);
+                                userResult.save();
+
                                 res.status(200);
                                 res.send({Message: 'Character deleted'});
                             }
                         }).catch(next);
-                    }else{
-                        res.status(401);
-                        res.send({Message: 'This resource does not belong to user'});
                     }
-                })
+                });
+                if(!exists){
+                    console.log('!exists');
+                    res.status(401);
+                    res.send({Message: 'This resource does not belong to user'});
+                }
             }
         })
     }

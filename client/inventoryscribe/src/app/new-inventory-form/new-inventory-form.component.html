@@ -1,0 +1,24 @@
+<div class="container">
+    <h1>New inventory</h1>
+  
+    <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()">
+      <div>
+          <label>Type</label>
+          <input type="text" class="form-control" formControlName="type" required>
+      </div>
+      <button class="btn" type="submit" [disabled]="!inventoryForm.valid">Submit</button>
+    </form>
+  
+      <div *ngIf="type.invalid && type.touched"
+        class="alert alert-danger">
+  
+        <div *ngIf="type.errors.required">
+          Type is required.
+        </div>
+      </div>
+  </div>
+  
+  
+  
+  
+  

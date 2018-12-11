@@ -1,6 +1,6 @@
 export class Item{
-    id:String;
-    name:string;
-    desc:string;
-    weight:number;
+    _id:String;
+    name:String;
+    description:String;
+    amount:number;
 }

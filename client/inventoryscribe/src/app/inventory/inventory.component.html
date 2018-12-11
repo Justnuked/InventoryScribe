@@ -1,0 +1,36 @@
+<div>
+    <h3>
+        {{inventory.type}}
+    </h3>
+    <div>
+        <button class="btn" (click)="deleteInventory()">Delete inventory</button>
+    </div>
+    <div>
+        <button class="btn" (click)="addItem()">Add item</button>
+    </div>
+
+    <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor=" let item of inventory.items" (click)="onSelect(character._id)">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.amount}}</td>
+                    <td>
+                        <button class="btn" (click)="deleteItem(item._id)">Delete item</button>
+                        <button class="btn" (click)="updateItem(item._id)">Update item</button>
+                    </td>
+                  </tr>
+            </tbody>
+          </table>
+
+
+</div>
+

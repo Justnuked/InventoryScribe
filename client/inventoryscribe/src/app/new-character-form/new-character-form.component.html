@@ -1,0 +1,46 @@
+<div class="container">
+    <h1>New character</h1>
+  
+    <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
+      <div>
+          <label>Name</label>
+          <input type="text" class="form-control" formControlName="name" required>
+      </div>
+      <div>
+          <label>Class</label>
+          <input type="text" class="form-control" formControlName="class" required>
+      </div>
+      <div>
+          <label>Race</label>
+          <input type="text" class="form-control" formControlName="race" required>
+      </div>
+      <button class="btn" type="submit" [disabled]="!characterForm.valid">Submit</button>
+    </form>
+  
+      <div *ngIf="name.invalid && name.touched"
+        class="alert alert-danger">
+  
+        <div *ngIf="name.errors.required">
+          Name is required.
+        </div>
+      </div>
+      <div *ngIf="class.invalid && class.touched"
+      class="alert alert-danger">
+  
+      <div *ngIf="class.errors.required">
+        Class is required.
+      </div>
+    </div>
+    <div *ngIf="race.invalid && race.touched"
+    class="alert alert-danger">
+
+    <div *ngIf="race.errors.required">
+      Race is required.
+    </div>
+  </div>
+    </div>
+  
+  
+  
+  
+  

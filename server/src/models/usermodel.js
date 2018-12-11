@@ -32,6 +32,15 @@ UserSchema.pre('save', function(next){
     next();
 });
 
+UserSchema.pre('remove', function(next){
+    const characters = mongoose.model('character');
+
+    characters.remove({_id: {$in: this.characters}}).then
+    (() =>{
+        next();
+    });
+});
+
 UserSchema.methods.comparePassword = function(password){
     var hash = crypto.createHmac('sha256', 'secretsalt').update(password).digest('hex');
 

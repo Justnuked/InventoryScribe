@@ -7,17 +7,19 @@ const InventorySchema = new Schema ({
         type:String,
         required:true,
         },
-    maxcarrycapacity:{
-        type:number,
-        required:true
-    },
-    currentcapacity:{
-        type:String,
-    },
     items:[{
         type:Schema.Types.ObjectId,
         ref:'item'
     }]
+});
+
+InventorySchema.pre('remove', function(next){
+    const items = mongoose.model('item');
+
+    items.remove({_id: {$in: this.items}}).then
+    (() =>{
+        next();
+    });
 });
 
 
