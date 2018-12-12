@@ -1,3 +1,5 @@
+//made by Thom Martens 2124326
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -33,7 +35,7 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 //mongoose config
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost/inventoryscribe', {useNewUrlParser: true});
+mongoose.connect('mongodb://admin:admin123@ds141264.mlab.com:41264/inventoryscribe', {useNewUrlParser: true});
 
 app.use(cors());
 

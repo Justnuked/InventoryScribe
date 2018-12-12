@@ -4,7 +4,8 @@
   "description": "d&d inventory manager",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon --exec mocha -R min --timeout 50000"
+    "test": "nodemon --exec mocha -R min --timeout 50000",
+    "start": "node server.js"
   },
   "author": "Thom Martens",
   "license": "ISC",
