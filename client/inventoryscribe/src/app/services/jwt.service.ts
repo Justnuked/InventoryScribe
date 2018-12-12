@@ -16,5 +16,9 @@ export class JwtService {
      this.jwtToken = temp;
    }
 
+   clearJwtToken(){
+     this.jwtToken = null;
+   }
+
 
 }

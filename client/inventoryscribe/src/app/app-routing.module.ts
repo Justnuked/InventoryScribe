@@ -11,6 +11,7 @@ import {NewItemFormComponent} from './new-item-form/new-item-form.component';
 import {UpdateItemFormComponent} from './update-item-form/update-item-form.component';
 
 const routes : Routes = [
+  {path:'', redirectTo: 'login', pathMatch: 'full'},
   {path: 'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
   {path: 'characters', component: CharacterComponent},
