@@ -31,6 +31,10 @@ export class NewInventoryFormComponent implements OnInit {
     Validators.required)
   });
 
+  get type(){
+    return this.inventoryForm.get('type');
+  }
+
   onSubmit(){
     var charid = null;
     this.inventory = this.inventoryForm.value;
