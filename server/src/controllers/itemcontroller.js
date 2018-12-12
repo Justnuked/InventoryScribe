@@ -150,12 +150,6 @@ module.exports = {
         var inventoryid = req.body.inventoryid;
         var exists = false;
 
-        console.log(charId);
-        console.log(itemname);
-        console.log(itemdescription);
-        console.log(amount);
-        console.log(inventoryid);
-
         Helper.getUser(req.user.username)
         .then((userResult) =>{
             if(!userResult){

@@ -5,17 +5,26 @@ module.exports = {
 
     createCharacter(req,res,next){
         const username = req.user.username;
+        var name = req.body.name;
+        var race = req.body.race;
+        var charClass = req.body.class;
 
         UserHelper.getUser(username)
         .then((result) =>{
             if(result !== null){
-                var character = new CharacterModel({name : req.body.name, race : req.body.race, class : req.body.class});
-                character.save();
-                result.characters.push(character);
-                result.save();
+                if(name && race && charClass){
+                    var character = new CharacterModel({name : name, race : race, class : charClass});
+                    character.save();
+                    result.characters.push(character);
+                    result.save();
+    
+                    res.status(200);
+                    res.send({Message: 'Character created'});
+                }else{
+                    res.status(400);
+                    res.send({Message: 'missing values'})
+                }
 
-                res.status(200);
-                res.send({Message: 'Character created'});
             }else{
                 res.status(400);
                 res.send({Message: 'username not found'});
@@ -94,6 +103,8 @@ module.exports = {
         const charId = req.params.id;
         var exists = false;
 
+        console.log('deleting. . .');
+
         UserHelper.getUser(username)
         .then((userResult) =>{
             if(userResult === null){
@@ -119,7 +130,6 @@ module.exports = {
                     }
                 });
                 if(!exists){
-                    console.log('!exists');
                     res.status(401);
                     res.send({Message: 'This resource does not belong to user'});
                 }

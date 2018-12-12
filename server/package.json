@@ -2,13 +2,16 @@
   "name": "inventoryscribe",
   "version": "1.0.0",
   "description": "d&d inventory manager",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon --exec mocha -R min --timeout 50000"
   },
   "author": "Thom Martens",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "chai-string": "^1.5.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
